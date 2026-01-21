@@ -86,23 +86,6 @@
   </div>
 </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-
-      <figure>
-        <img src="assets/teaser.png" alt="Gap-K% teaser figure" style="width:100%; border-radius:12px;">
-      </figure>
-
-      <h2 class="subtitle has-text-centered" style="margin-top: 1rem;">
-        <strong>Gap-K%</strong> detects pretraining data by measuring the <em>top-1 prediction gap</em> and
-        applying <em>sequential smoothing</em> to capture local token correlations.
-      </h2>
-
-    </div>
-  </div>
-</section>
-
 <section class="section">
   <div class="container is-max-desktop">
     <div class="content has-text-centered">
@@ -124,17 +107,18 @@
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            We study <strong>pretraining data detection</strong> for large language models and propose
-            <strong>Gap-K%</strong>, a simple and effective reference-free scoring method.
+            The opacity of massive pretraining corpora in Large Language Models (LLMs) raises privacy and copyright concerns,
+            making pretraining data detection a critical challenge. Existing methods mostly rely on token likelihoods, but often
+            overlook divergence from the model’s top-1 prediction and local correlations between adjacent tokens.
           </p>
           <p>
-            Gap-K% measures the <em>log-probability gap</em> between the model’s <em>top-1 prediction</em>
-            and the observed token, motivated by next-token optimization dynamics, and applies
-            <em>local smoothing</em> to capture sequential correlations.
+            We propose <strong>Gap-K%</strong>, a method grounded in the optimization dynamics of next-token prediction:
+            discrepancies between the top-1 predicted token and the target token induce strong gradient signals and are explicitly
+            penalized during training. Gap-K% leverages the <strong>log-probability gap</strong> between the top-1 token and the target,
+            and uses a <strong>sliding window</strong> to capture local correlations and reduce token-level fluctuations.
           </p>
           <p>
-            Across <strong>WikiMIA</strong> and <strong>MIMIR</strong>, Gap-K% consistently outperforms
-            strong likelihood-based baselines.
+            Experiments on <strong>WikiMIA</strong> and <strong>MIMIR</strong> show that Gap-K% consistently outperforms strong baselines.
           </p>
         </div>
       </div>
@@ -194,7 +178,7 @@
 </section>
 
 
-<section class="section" id="BibTeX">
+<!-- <section class="section" id="BibTeX">
   <div class="container is-max-desktop content">
     <h2 class="title">BibTeX</h2>
     <pre><code>@article{park2021nerfies,
@@ -204,7 +188,7 @@
   year      = {2021},
 }</code></pre>
   </div>
-</section>
+</section> -->
 
 
 <footer class="footer">
