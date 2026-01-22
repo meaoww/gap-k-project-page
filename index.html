@@ -122,6 +122,27 @@
   </div>
 </section>
 
+<section class="section" id="motivation">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Motivation and Insight</h2>
+        <div class="content has-text-justified">
+          <p>
+            Pretraining with the next-token prediction objective explicitly encourages the model
+            to align its top-1 prediction with the ground-truth token.
+            When the model is highly confident in an incorrect token, the resulting gradient signal
+            is large and is strongly penalized during training.
+            This suggests that the discrepancy between the top-1 prediction and the target token
+            provides a direct signal for distinguishing training data from unseen data.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
 <!-- ===================== Method ===================== -->
 <section class="section" id="method">
   <div class="container is-max-desktop">
