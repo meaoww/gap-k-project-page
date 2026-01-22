@@ -22,10 +22,13 @@
   <script defer src="./static/js/fontawesome.all.min.js"></script>
   <script src="./static/js/index.js"></script>
   <script>
-  window.MathJax = {
-    tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] }
-  };
-</script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']]
+      }
+    };
+  </script>
 <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 </head>
 <body>
@@ -134,32 +137,166 @@
   </div>
 </section>
 
-<!-- Method -->
-<section class="section">
+<!-- =========================
+     Motivation: Why Top-1 Gap?
+========================= -->
+<section class="section" id="motivation">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Method</h2>
-        <div class="content has-text-justified">
-          <p>
-            Gap-K% scores a sequence by measuring how much the observed token deviates from the model’s
-            top-1 prediction, motivated by next-token optimization dynamics.
-          </p>
-          <ul>
-            <li><strong>Top-1 gap score:</strong> compute the (normalized) log-probability gap between the top-1 token and the target token: 
-            $$g_t = \frac{\log p(y_t^\* \mid x_{<t}) - \log p(x_t \mid x_{<t})}
-            {\mathrm{Std}(\log p(\cdot \mid x_{<t}))},$$
-            where $y_t^\* = \arg\max_y p(y \mid x_{<t})$.
-            </li>
-            <li><strong>Sequential smoothing:</strong> apply a sliding window average to reduce token-level noise and capture local correlations.</li>
-            <li><strong>Bottom-k% aggregation:</strong> average the bottom k% smoothed scores to obtain a robust membership score.</li>
-          </ul>
+    <div class="columns is-centered">
+      <div class="column is-10">
+        <h2 class="title is-3 has-text-centered">Motivation: Why Top-1?</h2>
+
+        <div class="box">
+          <div class="content has-text-justified">
+            <p>
+              Consider standard next-token training with cross-entropy loss.
+              Let $s_t(v)$ denote the logit of token $v$ at position $t$, and $y_t$ the target token.
+              The loss gradient with respect to the logits is
+            </p>
+
+            <p>
+              $$\frac{\partial \ell_t}{\partial s_t(v)} = p(v \mid x_{<t}) - \mathbf{1}[v = y_t].$$
+            </p>
+
+            <p>
+              This reveals a crucial asymmetry: when the model assigns high probability to a
+              <strong>wrong</strong> token, that token receives a <strong>large positive gradient</strong>
+              and is aggressively penalized during training.
+            </p>
+
+            <p>
+              In particular, if the model’s <strong>top-1 prediction</strong>
+              $y_t^\* = \arg\max_v p(v \mid x_{<t})$ differs from the target token $y_t$,
+              the penalty magnitude scales with $p(y_t^\* \mid x_{<t})$.
+            </p>
+
+            <p>
+              As a result, training dynamics explicitly push the model to
+              <strong>reduce the gap between the target token and the top-1 prediction</strong>
+              on training examples.
+            </p>
+          </div>
         </div>
+
+        <div class="box">
+          <div class="content has-text-justified">
+            <p>
+              This observation motivates a membership signal that goes beyond token likelihood.
+              Even when the target token has reasonably high probability,
+              a <strong>confident top-1 misprediction</strong> (i.e., another token is preferred)
+              induces a much stronger optimization signal than a flat or uncertain distribution.
+            </p>
+
+            <p>
+              Therefore, the <strong>log-probability gap between the target token and the top-1 token</strong>
+              serves as a principled indicator of whether a sequence conforms to the model’s training dynamics.
+            </p>
+
+            <p style="opacity:0.85;">
+              Gap-K% operationalizes this insight by directly measuring and aggregating
+              these top-1 gaps across the sequence.
+            </p>
+          </div>
+        </div>
+
+        <!-- Optional supporting figure -->
+        <figure class="image" style="margin-top: 1rem;">
+          <img src="assets/top1_gradient_intuition.png"
+               alt="Gradient intuition: confident top-1 misprediction vs flat distribution">
+        </figure>
+        <p style="margin-top: 0.5rem; opacity: 0.8;">
+          <small>
+            A confident top-1 misprediction induces a much larger gradient penalty
+            than a flat or uncertain distribution.
+          </small>
+        </p>
+
       </div>
     </div>
   </div>
 </section>
 
+  
+<!-- Method -->
+<section class="section" id="method">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Method</h2>
+
+        <div class="content has-text-justified">
+          <p>
+            Gap-K% scores a sequence by measuring how much the target token deviates from the model’s
+            top-1 prediction, then aggregating locally smoothed gaps across the sequence.
+          </p>
+
+          <ul>
+            <li>
+              <strong>Top-1 gap score:</strong>
+              for each position \(t\), let
+              \(y_t^\*=\arg\max_{y} p(y \mid x_{\lt t})\) be the top-1 token.
+              We compute the normalized top-1 gap:
+              $$
+              g_t =
+              \frac{\log p(x_t \mid x_{\lt t}) - \log p(y_t^\* \mid x_{\lt t})}
+              {\mathrm{Std}\!\left(\log p(\cdot \mid x_{\lt t})\right)} \le 0.
+              $$
+            </li>
+
+            <li>
+              <strong>Sequential smoothing:</strong>
+              apply a sliding-window average over \(g_t\) to reduce token-level fluctuations
+              and capture local correlation.
+            </li>
+
+            <li>
+              <strong>Bottom-K% aggregation:</strong>
+              average the bottom \(K\%\) of smoothed scores to focus on the hardest (most indicative) segments.
+            </li>
+          </ul>
+
+          <p class="has-text-grey is-size-7">
+            Tip: we use \(\lt\) instead of <code>&lt;</code> inside math to avoid HTML parsing issues.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="visualization">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Visualization: Why It Works</h2>
+
+        <div class="box">
+          <div class="content has-text-justified">
+            <ul>
+              <li><strong>Min-K%++</strong>: tends to pick <strong>isolated</strong> low-score tokens.</li>
+              <li><strong>Gap-K%</strong>: after smoothing, highlights <strong>contiguous</strong> low-gap segments.</li>
+            </ul>
+            <p class="has-text-weight-semibold">
+              One-line takeaway: <strong>Gap-K% detects patterns, not isolated tokens.</strong>
+            </p>
+          </div>
+        </div>
+
+        <figure class="has-text-centered" style="margin-top: 1.5rem;">
+          <img src="static/images/fig6.png"
+               alt="Fig.6-style visualization: isolated tokens vs contiguous segments"
+               style="width:100%; max-width:1000px; border-radius:10px;">
+          <p class="has-text-grey is-size-7">
+            <strong>Figure.</strong> Token-level visualization (Fig.6 in the paper). Gap-K% highlights contiguous segments.
+          </p>
+        </figure>
+
+      </div>
+    </div>
+  </div>
+</section>
+                
 <!-- Results -->
 <section class="section">
   <div class="container is-max-desktop">
