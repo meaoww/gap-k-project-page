@@ -141,6 +141,11 @@
               confident mispredictions are strongly penalized during pretraining.
             </li>
 
+            <p class="has-text-centered" style="margin-top: 1.2rem;">
+              $$g_t =
+              \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
+            </p>
+
             <li>
               <strong>Smooth gaps over token sequences.</strong>
               <br/>
@@ -158,10 +163,6 @@
             </li>
           </ol>
 
-          <p class="has-text-centered" style="margin-top: 1.2rem;">
-            $$g_t =
-            \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
-          </p>
 
           <div class="notification is-light">
             <b>Key intuition.</b>
