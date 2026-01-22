@@ -131,16 +131,25 @@
           <p>
             Pretraining with the next-token prediction objective explicitly encourages the model
             to align its top-1 prediction with the ground-truth token.
+          </p>
+          <p>
             When the model is highly confident in an incorrect token, the resulting gradient signal
             is large and is strongly penalized during training.
+          </p>
+          <p>
             This suggests that the discrepancy between the top-1 prediction and the target token
             provides a direct signal for distinguishing training data from unseen data.
           </p>
         </div>
+
+        <p class="has-text-centered is-size-7 has-text-grey" style="margin-top: 0.75rem;">
+          For additional details and formal definitions, please refer to the paper.
+        </p>
       </div>
     </div>
   </div>
 </section>
+
 
   
 <!-- ===================== Method ===================== -->
