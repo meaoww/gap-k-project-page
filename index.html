@@ -107,163 +107,74 @@
   </div>
 </section>
 
-
-<section class="section">
+<!-- ===================== Abstract ===================== -->
+<section class="section" id="abstract">
   <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
         <h2 class="title is-3">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            The opacity of massive pretraining corpora in Large Language Models (LLMs) raises privacy and copyright concerns,
-            making pretraining data detection a critical challenge. Existing methods mostly rely on token likelihoods, but often
-            overlook divergence from the model’s top-1 prediction and local correlations between adjacent tokens.
-          </p>
-          <p>
-            We propose <strong>Gap-K%</strong>, a method grounded in the optimization dynamics of next-token prediction:
-            discrepancies between the top-1 predicted token and the target token induce strong gradient signals and are explicitly
-            penalized during training. Gap-K% leverages the <strong>log-probability gap</strong> between the top-1 token and the target,
-            and uses a <strong>sliding window</strong> to capture local correlations and reduce token-level fluctuations.
-          </p>
-          <p>
-            Experiments on <strong>WikiMIA</strong> and <strong>MIMIR</strong> show that Gap-K% consistently outperforms strong baselines.
+            The opacity of massive pretraining corpora in Large Language Models (LLMs) raises significant privacy and copyright concerns, making pretraining data detection a critical challenge. Existing state-of-the-art methods typically rely on token likelihoods, yet they often overlook the divergence from the model's top-1 prediction and local correlation between adjacent tokens. In this work, we propose Gap-K\%, a novel pretraining data detection method grounded in the optimization dynamics of LLM pretraining. By analyzing the next-token prediction objective, we observe that discrepancies between the model’s top-1 prediction and the target token induce strong gradient signals, which are explicitly penalized during training. Motivated by this, Gap-K\% leverages the log probability gap between the top-1 predicted token and the target token, incorporating a sliding window strategy to capture local correlations and mitigate token-level fluctuations. Extensive experiments on the WikiMIA and MIMIR benchmarks demonstrate that Gap-K\% achieves state-of-the-art performance, consistently outperforming prior baselines across various model sizes and input lengths
           </p>
         </div>
-      </div>
-    </div>
-    <!--/ Abstract. -->
-
-  </div>
-</section>
-
-<!-- =========================
-     Motivation: Why Top-1 Gap?
-========================= -->
-<section class="section" id="motivation">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-10">
-        <h2 class="title is-3 has-text-centered">Motivation: Why Top-1?</h2>
-
-        <div class="box">
-          <div class="content has-text-justified">
-            <p>
-              Consider standard next-token training with cross-entropy loss.
-              Let $s_t(v)$ denote the logit of token $v$ at position $t$, and $y_t$ the target token.
-              The loss gradient with respect to the logits is
-            </p>
-
-            <p>
-              $$\frac{\partial \ell_t}{\partial s_t(v)} = p(v \mid x_{<t}) - \mathbf{1}[v = y_t].$$
-            </p>
-
-            <p>
-              This reveals a crucial asymmetry: when the model assigns high probability to a
-              <strong>wrong</strong> token, that token receives a <strong>large positive gradient</strong>
-              and is aggressively penalized during training.
-            </p>
-
-            <p>
-              In particular, if the model’s <strong>top-1 prediction</strong>
-              $y_t^\* = \arg\max_v p(v \mid x_{<t})$ differs from the target token $y_t$,
-              the penalty magnitude scales with $p(y_t^\* \mid x_{<t})$.
-            </p>
-
-            <p>
-              As a result, training dynamics explicitly push the model to
-              <strong>reduce the gap between the target token and the top-1 prediction</strong>
-              on training examples.
-            </p>
-          </div>
-        </div>
-
-        <div class="box">
-          <div class="content has-text-justified">
-            <p>
-              This observation motivates a membership signal that goes beyond token likelihood.
-              Even when the target token has reasonably high probability,
-              a <strong>confident top-1 misprediction</strong> (i.e., another token is preferred)
-              induces a much stronger optimization signal than a flat or uncertain distribution.
-            </p>
-
-            <p>
-              Therefore, the <strong>log-probability gap between the target token and the top-1 token</strong>
-              serves as a principled indicator of whether a sequence conforms to the model’s training dynamics.
-            </p>
-
-            <p style="opacity:0.85;">
-              Gap-K% operationalizes this insight by directly measuring and aggregating
-              these top-1 gaps across the sequence.
-            </p>
-          </div>
-        </div>
-
-        <!-- Optional supporting figure -->
-        <figure class="image" style="margin-top: 1rem;">
-          <img src="assets/top1_gradient_intuition.png"
-               alt="Gradient intuition: confident top-1 misprediction vs flat distribution">
-        </figure>
-        <p style="margin-top: 0.5rem; opacity: 0.8;">
-          <small>
-            A confident top-1 misprediction induces a much larger gradient penalty
-            than a flat or uncertain distribution.
-          </small>
-        </p>
-
       </div>
     </div>
   </div>
 </section>
 
-  
-<!-- Method -->
+<!-- ===================== Method ===================== -->
 <section class="section" id="method">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
         <h2 class="title is-3">Method</h2>
 
         <div class="content has-text-justified">
           <p>
-            Gap-K% scores a sequence by measuring how much the target token deviates from the model’s
-            top-1 prediction, then aggregating locally smoothed gaps across the sequence.
+            Given a token sequence \(x = (x_1,\dots,x_T)\), we compute a token-level gap score, smooth it to reduce noise
+            and capture local patterns, then aggregate the lowest \(K\%\) windows.
           </p>
 
-          <ul>
-            <li>
-              <strong>Top-1 gap score:</strong>
-              for each position \(t\), let
-              \(y_t^\*=\arg\max_{y} p(y \mid x_{\lt t})\) be the top-1 token.
-              We compute the normalized top-1 gap:
-              $$
-              g_t =
-              \frac{\log p(x_t \mid x_{\lt t}) - \log p(y_t^\* \mid x_{\lt t})}
-              {\mathrm{Std}\!\left(\log p(\cdot \mid x_{\lt t})\right)} \le 0.
-              $$
-            </li>
-
-            <li>
-              <strong>Sequential smoothing:</strong>
-              apply a sliding-window average over \(g_t\) to reduce token-level fluctuations
-              and capture local correlation.
-            </li>
-
-            <li>
-              <strong>Bottom-K% aggregation:</strong>
-              average the bottom \(K\%\) of smoothed scores to focus on the hardest (most indicative) segments.
-            </li>
-          </ul>
-
-          <p class="has-text-grey is-size-7">
-            Tip: we use \(\lt\) instead of <code>&lt;</code> inside math to avoid HTML parsing issues.
+          <h3 class="title is-5">1) Token-level Top-1 Prediction Gap</h3>
+          <p>
+            Let \(p(\cdot \mid x_{&lt;t})\) be the next-token distribution at position \(t\). Define:
           </p>
+          <p class="has-text-centered">
+            $$g_t = \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v \in \mathcal{V}} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
+          </p>
+          <p>
+            where \(\sigma_t\) is the standard deviation of \(\{\log p(v \mid x_{&lt;t}) : v \in \mathcal{V}\}\).
+            Note that \(g_t \le 0\), and values closer to 0 indicate the target token aligns with the model’s top-1 prediction.
+          </p>
+
+          <h3 class="title is-5">2) Sequential Smoothing</h3>
+          <p>
+            To capture local correlations and reduce token-level fluctuation, we compute a windowed average:
+          </p>
+          <p class="has-text-centered">
+            $$\bar{g}^{(w)}_t = \frac{1}{w}\sum_{i=0}^{w-1} g_{t+i}$$
+          </p>
+          <p>
+            where \(w\) is the window size.
+          </p>
+
+          <h3 class="title is-5">3) Gap-K% Aggregation</h3>
+          <p>
+            We aggregate by taking the average of the lowest \(K\%\) values among all windowed scores
+            \(\{\bar{g}^{(w)}_t\}_{t=1}^{T-w+1}\):
+          </p>
+          <p class="has-text-centered">
+            $$\mathrm{Gap\text{-}K\%}(x) = \mathrm{Avg}\Big(\mathrm{Bottom}_{K\%}\big(\{\bar{g}^{(w)}_t\}\big)\Big)$$
+          </p>
+
+          <div class="notification is-light">
+            <b>Interpretation.</b> Scores closer to 0 imply “even the hardest regions align well with the top-1 prediction,”
+            indicating a higher likelihood of membership.
+          </div>
         </div>
-
       </div>
     </div>
-  </div>
-</section>
 
 <section class="section" id="visualization">
   <div class="container is-max-desktop">
