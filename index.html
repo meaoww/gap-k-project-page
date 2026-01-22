@@ -114,7 +114,12 @@
         <h2 class="title is-3 has-text-centered">Abstract</h2>
         <div class="content has-text-justified">
           <p>
-            The opacity of massive pretraining corpora in Large Language Models (LLMs) raises significant privacy and copyright concerns, making pretraining data detection a critical challenge. Existing state-of-the-art methods typically rely on token likelihoods, yet they often overlook the divergence from the model's top-1 prediction and local correlation between adjacent tokens. In this work, we propose Gap-K%, a novel pretraining data detection method grounded in the optimization dynamics of LLM pretraining. By analyzing the next-token prediction objective, we observe that discrepancies between the model’s top-1 prediction and the target token induce strong gradient signals, which are explicitly penalized during training. Motivated by this, Gap-K% leverages the log probability gap between the top-1 predicted token and the target token, incorporating a sliding window strategy to capture local correlations and mitigate token-level fluctuations. Extensive experiments on the WikiMIA and MIMIR benchmarks demonstrate that Gap-K% achieves state-of-the-art performance, consistently outperforming prior baselines across various model sizes and input lengths.
+            The opacity of massive pretraining corpora in Large Language Models (LLMs) raises significant privacy and copyright concerns, making pretraining data detection a critical challenge. 
+            Existing state-of-the-art methods typically rely on token likelihoods, yet they often overlook the divergence from the model's top-1 prediction and local correlation between adjacent tokens. 
+            In this work, we propose Gap-K%, a novel pretraining data detection method grounded in the optimization dynamics of LLM pretraining. 
+            By analyzing the next-token prediction objective, we observe that discrepancies between the model’s top-1 prediction and the target token induce strong gradient signals, which are explicitly penalized during training. 
+            Motivated by this, Gap-K% leverages the log probability gap between the top-1 predicted token and the target token, incorporating a sliding window strategy to capture local correlations and mitigate token-level fluctuations. 
+            Extensive experiments on the WikiMIA and MIMIR benchmarks demonstrate that Gap-K% achieves state-of-the-art performance, consistently outperforming prior baselines across various model sizes and input lengths.
           </p>
         </div>
       </div>
@@ -206,43 +211,51 @@
   
                 
 <!-- Results -->
-<section class="section">
+<section class="section" id="results">
   <div class="container is-max-desktop">
-    <div class="columns is-centered has-text-centered">
+    <div class="columns is-centered">
       <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Results</h2>
 
-        <h2 class="title is-3">Results</h2>
-        
-        <p class="is-size-5 has-text-centered" style="margin-bottom: 1rem;">
-          Across two benchmarks, <strong>Gap-K%</strong> demonstrates consistent improvements over strong likelihood-based baselines.  
-          On <strong>WikiMIA</strong>, Gap-K% improves AUROC by up to
-          <strong>+9.7</strong> over prior baselines and by <strong>+2.4</strong>
-          over the strongest competitor (Min-K%++).
-          On <strong>MIMIR</strong>, it achieves the highest average AUROC across
-          Pythia model variants.
-        </p>
-        
-        <!-- WikiMIA table -->
-        <figure class="has-text-centered" style="margin-top: 1.5rem;">
-          <img src="static/images/wikimia_table.png"
-               alt="WikiMIA results table"
-               style="width:100%; max-width:1000px; border-radius:10px;">
-          <p class="has-text-grey is-size-7">
-            <strong>Table 1.</strong> Results on WikiMIA.
+        <!-- 다른 섹션과 동일한 본문 스타일 -->
+        <div class="content has-text-justified">
+          <p>
+            We evaluate Gap-K% on two benchmarks, <strong>WikiMIA</strong> and <strong>MIMIR</strong>.
+            Across both benchmarks, Gap-K% consistently improves membership inference performance over strong
+            likelihood-based baselines.
           </p>
-        </figure>
 
-        <br/>
-
-        <!-- MIMIR table -->
-        <figure class="has-text-centered" style="margin-top: 1.5rem;">
-          <img src="static/images/mimir_table.png"
-               alt="MIMIR results table"
-               style="width:100%; max-width:1000px; border-radius:10px;">
-          <p class="has-text-grey is-size-7">
-            <strong>Table 2.</strong> Results on MIMIR.
+          <h3 class="title is-5">WikiMIA</h3>
+          <p>
+            On <strong>WikiMIA</strong>, Gap-K% improves AUROC by up to <strong>+9.7</strong> over prior baselines and by
+            <strong>+2.4</strong> over the strongest competitor (<strong>Min-K%++</strong>), consistently across model sizes
+            and input settings.
           </p>
-        </figure>
+
+          <figure class="has-text-centered" style="margin-top: 1.25rem;">
+            <img src="static/images/wikimia_table.png"
+                 alt="WikiMIA results table"
+                 style="width:100%; max-width:1000px; border-radius:10px;">
+            <p class="has-text-grey is-size-7" style="margin-top: 0.5rem;">
+              <strong>Table 1.</strong> Results on WikiMIA.
+            </p>
+          </figure>
+
+          <h3 class="title is-5" style="margin-top: 1.75rem;">MIMIR</h3>
+          <p>
+            On <strong>MIMIR</strong>, Gap-K% achieves the highest <strong>average AUROC</strong> across multiple
+            <strong>Pythia</strong> model variants, demonstrating strong performance on a challenging benchmark.
+          </p>
+
+          <figure class="has-text-centered" style="margin-top: 1.25rem;">
+            <img src="static/images/mimir_table.png"
+                 alt="MIMIR results table"
+                 style="width:100%; max-width:1000px; border-radius:10px;">
+            <p class="has-text-grey is-size-7" style="margin-top: 0.5rem;">
+              <strong>Table 2.</strong> Results on MIMIR.
+            </p>
+          </figure>
+        </div>
 
       </div>
     </div>
