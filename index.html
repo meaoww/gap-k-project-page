@@ -130,71 +130,51 @@
         <h2 class="title is-3 has-text-centered">Method</h2>
 
         <div class="content has-text-justified">
-          <p>
-            Gap-K% measures how much the ground-truth token deviates from the model’s
-            top-1 prediction, smooths this signal across adjacent tokens, and aggregates
-            the lowest <i>K</i>% regions.
-          </p>
-        
-          <h3 class="title is-5">Top-1 Prediction Gap</h3>
-          <p>
-            At each position \(t\), we compute the normalized log-probability gap between
-            the target token \(x_t\) and the model’s top-1 prediction:
-          </p>
-          <p class="has-text-centered">
+
+          <ol>
+            <li>
+              <strong>Measure top-1 prediction gap.</strong>
+              <br/>
+              At each token position, Gap-K% measures how much the ground-truth token
+              deviates from the model’s top-1 prediction.
+              This gap reflects the optimization pressure of next-token training:
+              confident mispredictions are strongly penalized during pretraining.
+            </li>
+
+            <li>
+              <strong>Smooth gaps over token sequences.</strong>
+              <br/>
+              Instead of treating tokens independently, Gap-K% averages gap scores
+              over a sliding window to capture local correlations and reduce
+              token-level fluctuations.
+            </li>
+
+            <li>
+              <strong>Aggregate the worst K% regions.</strong>
+              <br/>
+              Finally, Gap-K% aggregates the lowest <i>K</i>% of window-level scores,
+              focusing on the most informative regions where the model deviates most
+              from its top-1 predictions.
+            </li>
+          </ol>
+
+          <p class="has-text-centered" style="margin-top: 1.2rem;">
             $$g_t =
             \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
           </p>
-        
-          <h3 class="title is-5">Sequential Smoothing and Aggregation</h3>
-          <p>
-            To reduce token-level variance and capture local correlations, we average gap
-            scores over a sliding window of size \(w\), producing window-level scores
-            \(\bar{g}_t^{(w)}\).
-            The final Gap-K% score is computed by averaging the lowest \(K\%\) of these
-            window-level values.
-          </p>
-        
+
           <div class="notification is-light">
-            <b>Takeaway.</b> Gap-K% emphasizes span-level discrepancies from top-1 predictions,
-            rather than isolated token-level outliers.
+            <b>Key intuition.</b>
+            Training data tends to minimize top-1 prediction gaps across contiguous
+            spans, while unseen data often exhibits larger gaps in localized regions.
           </div>
+
         </div>
-      </div>
-    </div>
-</section> 
-  
-<section class="section" id="visualization">
-  <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3 has-text-centered">Visualization: Why It Works</h2>
-
-        <div class="box">
-          <div class="content has-text-justified">
-            <ul>
-              <li><strong>Min-K%++</strong>: tends to pick <strong>isolated</strong> low-score tokens.</li>
-              <li><strong>Gap-K%</strong>: after smoothing, highlights <strong>contiguous</strong> low-gap segments.</li>
-            </ul>
-            <p class="has-text-weight-semibold">
-              One-line takeaway: <strong>Gap-K% detects patterns, not isolated tokens.</strong>
-            </p>
-          </div>
-        </div>
-
-        <figure class="has-text-centered" style="margin-top: 1.5rem;">
-          <img src="static/images/fig6.png"
-               alt="Fig.6-style visualization: isolated tokens vs contiguous segments"
-               style="width:100%; max-width:1000px; border-radius:10px;">
-          <p class="has-text-grey is-size-7">
-            <strong>Figure.</strong> Token-level visualization (Fig.6 in the paper). Gap-K% highlights contiguous segments.
-          </p>
-        </figure>
-
       </div>
     </div>
   </div>
 </section>
+  
                 
 <!-- Results -->
 <section class="section">
