@@ -131,46 +131,33 @@
 
         <div class="content has-text-justified">
           <p>
-            Given a token sequence \(x = (x_1,\dots,x_T)\), Gap-K% computes a token-level
-            top-1 prediction gap, applies sequential smoothing to capture local correlations,
-            and aggregates the lowest \(K\%\) window-level scores.
+            Gap-K% measures how much the ground-truth token deviates from the model’s
+            top-1 prediction, smooths this signal across adjacent tokens, and aggregates
+            the lowest <i>K</i>% regions.
           </p>
-
-          <h3 class="title is-5">1) Token-level Top-1 Prediction Gap</h3>
+        
+          <h3 class="title is-5">Top-1 Prediction Gap</h3>
           <p>
-            Let \(p(\cdot \mid x_{&lt;t})\) be the next-token distribution at position \(t\). Define:
+            At each position \(t\), we compute the normalized log-probability gap between
+            the target token \(x_t\) and the model’s top-1 prediction:
           </p>
           <p class="has-text-centered">
-            $$g_t = \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v \in \mathcal{V}} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
+            $$g_t =
+            \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
           </p>
+        
+          <h3 class="title is-5">Sequential Smoothing and Aggregation</h3>
           <p>
-            where \(\sigma_t\) is the standard deviation of \(\{\log p(v \mid x_{&lt;t}) : v \in \mathcal{V}\}\).
-            Note that \(g_t \le 0\), and values closer to 0 indicate the target token aligns with the model’s top-1 prediction.
+            To reduce token-level variance and capture local correlations, we average gap
+            scores over a sliding window of size \(w\), producing window-level scores
+            \(\bar{g}_t^{(w)}\).
+            The final Gap-K% score is computed by averaging the lowest \(K\%\) of these
+            window-level values.
           </p>
-
-          <h3 class="title is-5">2) Sequential Smoothing</h3>
-          <p>
-            To capture local correlations and reduce token-level fluctuation, we compute a windowed average:
-          </p>
-          <p class="has-text-centered">
-            $$\bar{g}^{(w)}_t = \frac{1}{w}\sum_{i=0}^{w-1} g_{t+i}$$
-          </p>
-          <p>
-            where \(w\) is the window size.
-          </p>
-
-          <h3 class="title is-5">3) Gap-K% Aggregation</h3>
-          <p>
-            We aggregate by taking the average of the lowest \(K\%\) values among all windowed scores
-            \(\{\bar{g}^{(w)}_t\}_{t=1}^{T-w+1}\):
-          </p>
-          <p class="has-text-centered">
-            $$\mathrm{Gap\text{-}K\%}(x) = \mathrm{Avg}\Big(\mathrm{Bottom}_{K\%}\big(\{\bar{g}^{(w)}_t\}\big)\Big)$$
-          </p>
-
+        
           <div class="notification is-light">
-            <b>Interpretation.</b> Scores closer to 0 imply “even the hardest regions align well with the top-1 prediction,”
-            indicating a higher likelihood of membership.
+            <b>Takeaway.</b> Gap-K% emphasizes span-level discrepancies from top-1 predictions,
+            rather than isolated token-level outliers.
           </div>
         </div>
       </div>
