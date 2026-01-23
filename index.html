@@ -45,7 +45,7 @@
               <strong>Minseo Kwak</strong>,
             </span>
             <span class="author-block">
-              <strong>Jaehyung Kim</strong>
+              <a href="https://sites.google.com/view/jaehyungkim">Jaehyung Kim</a><sup>2</sup>,
             </span>
           </div>
 
@@ -150,12 +150,36 @@
         <p class="has-text-centered is-size-7 has-text-grey" style="margin-top: 0.75rem;">
           For additional details and formal definitions, please refer to the paper.
         </p>
+
+        <figure class="has-text-centered" style="margin-top: 1.25rem;">
+          <img src="static/images/figure2.png"
+               alt="Illustration of z_t vs g_t: likelihood score vs top-1 gap"
+               style="width:100%; max-width:900px; border-radius:10px;">
+          <p class="has-text-grey is-size-7" style="margin-top: 0.5rem;">
+            <strong>Figure 2.</strong>
+            The normalized likelihood score <em>z<sub>t</sub></em> depends only on the ground-truth token probability,
+            while the top-1 gap <em>g<sub>t</sub></em> additionally captures how much the model prefers its top-1 prediction
+            over the ground-truth token.
+          </p>
+        </figure>
+
+        <!-- ✅ Minimal definitions so readers don’t get stuck on symbols -->
+        <div class="notification is-light is-size-6" style="margin-top: 1rem;">
+          <p>
+            <strong>Notation.</strong>
+            <em>z<sub>t</sub></em> is the <em>z-score normalized</em> log-probability of the ground-truth token
+            <em>x<sub>t</sub></em> given the prefix <em>x<sub>&lt;t</sub></em> (used in Min-K%/Min-K%++),
+            while <em>g<sub>t</sub></em> is the normalized log-probability <em>gap</em> between the top-1 predicted token
+            and the ground-truth token at position <em>t</em>.
+          </p>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 
+  
   
 <!-- ===================== Method ===================== -->
 <section class="section" id="method">
