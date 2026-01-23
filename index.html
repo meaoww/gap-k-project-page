@@ -153,26 +153,31 @@
 
         <figure class="has-text-centered" style="margin-top: 1.25rem;">
           <img src="static/images/Figure2.png"
-               alt="Illustration of z_t vs g_t: likelihood score vs top-1 gap"
+               alt="Conceptual comparison of Min-K%++ (z_t) vs Gap-K% (g_t)"
                style="width:100%; max-width:900px; border-radius:10px;">
+        
           <p class="has-text-grey is-size-7" style="margin-top: 0.5rem;">
             <strong>Figure 2.</strong>
-            The normalized likelihood score <em>z<sub>t</sub></em> depends only on the ground-truth token probability,
-            while the top-1 gap <em>g<sub>t</sub></em> additionally captures how much the model prefers its top-1 prediction
-            over the ground-truth token.
+            Conceptual comparison between Min-K%++ and Gap-K% using a toy example with a
+            small vocabulary size of 8.<br/><br/>
+        
+            Inspired by the illustrative analysis of Zhang et al. (2025), we compare the
+            token-level scores of Min-K%++ (<em>z<sub>t</sub></em>) and Gap-K% (<em>g<sub>t</sub></em>)
+            under two different next-token probability distributions.
+            Both <em>z<sub>t</sub></em> and <em>g<sub>t</sub></em> are normalized quantities as defined
+            in the text.<br/><br/>
+        
+            The blue hatched bar denotes the observed token <em>x<sub>t</sub></em>, while the yellow
+            hatched bar indicates the top-1 token.<br/><br/>
+        
+            In (a), the distribution is relatively flat, resulting in low-confidence incorrect
+            predictions.
+            In (b), the model assigns high confidence to an incorrect top-1 token.
+            While the Min-K%++ score <em>z<sub>t</sub></em> is identical in both cases, the Gap-K% score
+            <em>g<sub>t</sub></em> distinguishes confident mispredictions from uncertain ones by
+            explicitly capturing the gap between the observed token and the distribution mode.
           </p>
         </figure>
-
-        <!-- ✅ Minimal definitions so readers don’t get stuck on symbols -->
-        <div class="notification is-light is-size-6" style="margin-top: 1rem;">
-          <p>
-            <strong>Notation.</strong>
-            <em>z<sub>t</sub></em> is the <em>z-score normalized</em> log-probability of the ground-truth token
-            <em>x<sub>t</sub></em> given the prefix <em>x<sub>&lt;t</sub></em> (used in Min-K%/Min-K%++),
-            while <em>g<sub>t</sub></em> is the normalized log-probability <em>gap</em> between the top-1 predicted token
-            and the ground-truth token at position <em>t</em>.
-          </p>
-        </div>
       </div>
     </div>
   </div>
