@@ -156,29 +156,35 @@
                alt="Conceptual comparison of Min-K%++ (z_t) vs Gap-K% (g_t)"
                style="width:100%; max-width:900px; border-radius:10px;">
         
-          <figcaption class="has-text-grey is-size-7" style="margin-top: 0.5rem;">
-            <div><strong>Figure 2.</strong> Conceptual comparison between Min-K%++ and Gap-K% using a toy example (vocab size = 8).</div>
-            <br/>
-            <div>
-              Inspired by the illustrative analysis of Zhang et al. (2025), we compare the token-level scores of
-              Min-K%++ (<em>z<sub>t</sub></em>) and Gap-K% (<em>g<sub>t</sub></em>) under two different next-token
-              probability distributions. Both <em>z<sub>t</sub></em> and <em>g<sub>t</sub></em> are normalized quantities
-              as defined in the text.
-            </div>
-            <br/>
-            <div>
-              The blue hatched bar denotes the observed token <em>x<sub>t</sub></em>, while the yellow hatched bar indicates
-              the top-1 token.
-            </div>
-            <br/>
-            <div>
-              In (a), the distribution is relatively flat, resulting in low-confidence incorrect predictions.
-              In (b), the model assigns high confidence to an incorrect top-1 token.
-              While <em>z<sub>t</sub></em> is identical in both cases, <em>g<sub>t</sub></em> distinguishes the two by
-              capturing the gap between the observed token and the distribution mode.
-            </div>
-          </figcaption>
+          <div class="content has-text-justified" style="margin-top: 0.75rem;">
+            <p>
+              <strong>Figure 2.</strong>
+              Conceptual comparison between Min-K%++ and Gap-K% using a toy example with a
+              small vocabulary size of 8.
+            </p>
+        
+            <p>
+              Inspired by the illustrative analysis of Zhang et al. (2025), we compare the
+              token-level scores of Min-K%++ (<em>z<sub>t</sub></em>) and Gap-K% (<em>g<sub>t</sub></em>)
+              under two different next-token probability distributions. Both <em>z<sub>t</sub></em> and
+              <em>g<sub>t</sub></em> are normalized quantities as defined in the text.
+            </p>
+        
+            <p>
+              The blue hatched bar denotes the observed token <em>x<sub>t</sub></em>, while the yellow
+              hatched bar indicates the top-1 token.
+            </p>
+        
+            <p>
+              In (a), the distribution is relatively flat, resulting in low-confidence incorrect
+              predictions. In (b), the model assigns high confidence to an incorrect top-1 token.
+              While the Min-K%++ score <em>z<sub>t</sub></em> is identical in both cases, the Gap-K% score
+              <em>g<sub>t</sub></em> distinguishes the two by explicitly capturing the gap between the
+              observed token and the distribution mode.
+            </p>
+          </div>
         </figure>
+
       </div>
     </div>
   </div>
@@ -247,7 +253,6 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3 has-text-centered">Results</h2>
 
-        <!-- 다른 섹션과 동일한 본문 스타일 -->
         <div class="content has-text-justified">
           <p>
             We evaluate Gap-K% on two benchmarks, <strong>WikiMIA</strong> and <strong>MIMIR</strong>.
