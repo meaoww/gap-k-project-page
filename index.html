@@ -165,10 +165,10 @@
             </p>
         
             <p>
-              Inspired by the illustrative analysis of Zhang et al. (2025), we compare the
-              token-level scores of Min-K%++ (<em>z<sub>t</sub></em>) and Gap-K% (<em>g<sub>t</sub></em>)
-              under two different next-token probability distributions. Both <em>z<sub>t</sub></em> and
-              <em>g<sub>t</sub></em> are normalized quantities as defined in the text.
+              Min-K%++ is a likelihood-based detection method that scores each token based on the
+              normalized probability of the ground-truth token (z_t).
+              In contrast, Gap-K% measures the normalized gap (g_t) between the model’s top-1 prediction
+              and the ground-truth token.
             </p>
         
             <p>
@@ -179,6 +179,9 @@
             <p>
               In (a), the distribution is relatively flat, resulting in low-confidence incorrect
               predictions. In (b), the model assigns high confidence to an incorrect top-1 token.
+            </p>
+            
+            <p>
               While the Min-K%++ score <em>z<sub>t</sub></em> is identical in both cases, the Gap-K% score
               <em>g<sub>t</sub></em> distinguishes the two by explicitly capturing the gap between the
               observed token and the distribution mode.
