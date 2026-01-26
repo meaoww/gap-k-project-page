@@ -154,44 +154,6 @@
             For additional details and formal definitions, please refer to the paper.
           </p>
         </div>
-
-        <figure class="has-text-centered" style="margin-top: 1.25rem;">
-          <img src="static/images/Figure2.png"
-               alt="Conceptual comparison of Min-K%++ (z_t) vs Gap-K% (g_t)"
-               style="width:100%; max-width:900px; border-radius:10px;">
-        
-          <div class="content has-text-justified" style="margin-top: 0.75rem;">
-            <ul>
-              <li>
-                Conceptual comparison between Min-K%++ and Gap-K% using a toy example with a
-                small vocabulary size of 8.
-              </li>
-          
-              <li>
-                Min-K%++ is a likelihood-based detection method that scores each token based on the
-                normalized probability of the ground-truth token (z_t).
-                In contrast, Gap-K% measures the normalized gap (g_t) between the model’s top-1 prediction
-                and the ground-truth token.
-              </li>
-            </ul>
-            <p>
-              The blue hatched bar denotes the observed token <em>x<sub>t</sub></em>, while the yellow
-              hatched bar indicates the top-1 token.
-            </p>
-        
-            <p>
-              In (a), the distribution is relatively flat, resulting in low-confidence incorrect
-              predictions. In (b), the model assigns high confidence to an incorrect top-1 token.
-            </p>
-            
-            <p>
-              While the Min-K%++ score <em>z<sub>t</sub></em> is identical in both cases, the Gap-K% score
-              <em>g<sub>t</sub></em> distinguishes the two by explicitly capturing the gap between the
-              observed token and the distribution mode.
-            </p>
-          </div>
-        </figure>
-
       </div>
     </div>
   </div>
@@ -245,6 +207,44 @@
             Training data tends to minimize top-1 prediction gaps across contiguous
             spans, while unseen data often exhibits larger gaps in localized regions.
           </div>
+
+                  <figure class="has-text-centered" style="margin-top: 1.25rem;">
+          <img src="static/images/Figure2.png"
+               alt="Conceptual comparison of Min-K%++ (z_t) vs Gap-K% (g_t)"
+               style="width:100%; max-width:900px; border-radius:10px;">
+        
+          <div class="content has-text-justified" style="margin-top: 0.75rem;">
+            <ul>
+              <li>
+                Conceptual comparison between Min-K%++ and Gap-K% using a toy example with a
+                small vocabulary size of 8.
+              </li>
+          
+              <li>
+                Min-K%++ is a likelihood-based detection method that scores each token based on the
+                normalized probability of the ground-truth token (z_t).
+                In contrast, Gap-K% measures the normalized gap (g_t) between the model’s top-1 prediction
+                and the ground-truth token.
+              </li>
+            </ul>
+            <p>
+              The blue hatched bar denotes the observed token <em>x<sub>t</sub></em>, while the yellow
+              hatched bar indicates the top-1 token.
+            </p>
+        
+            <p>
+              In (a), the distribution is relatively flat, resulting in low-confidence incorrect
+              predictions. In (b), the model assigns high confidence to an incorrect top-1 token.
+            </p>
+            
+            <p>
+              While the Min-K%++ score <em>z<sub>t</sub></em> is identical in both cases, the Gap-K% score
+              <em>g<sub>t</sub></em> distinguishes the two by explicitly capturing the gap between the
+              observed token and the distribution mode.
+            </p>
+          </div>
+        </figure>
+
 
         </div>
       </div>
