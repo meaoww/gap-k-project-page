@@ -156,19 +156,25 @@ body {
   border-radius: 5px;
 }
 
-.publication-authors .author-block strong {
-  color: hsl(204, 86%, 53%) !important;
-}
 
 .publication-authors.affiliation {
-  margin-top: 0.35rem;  /* 0.25~0.6rem 사이로 취향 조절 */
+  margin-top: 0.35rem;
 }
 
 .section.intro {
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
 }
-/* Tighten spacing before abstract section (optional) */
+
 #abstract.section {
   padding-top: 2rem;
 }
+
+.publication-authors .author-block {
+  color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors .author-block a {
+  color: inherit !important;
+}
+
