@@ -170,11 +170,10 @@ body {
   padding-top: 2rem;
 }
 
-.publication-authors .author-block {
+.publication-authors:not(.affiliation) .author-block {
   color: hsl(204, 86%, 53%) !important;
 }
 
-.publication-authors .author-block a {
+.publication-authors:not(.affiliation) .author-block a {
   color: inherit !important;
 }
-
