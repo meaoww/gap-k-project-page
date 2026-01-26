@@ -189,9 +189,8 @@
                 <li>\(x_t\): target token at position \(t\)</li>
                 <li>\(x_{&lt;t}\): prefix context</li>
                 <li>\(v\): a candidate token in the vocabulary \(\mathcal{V}\).</li>
-                <li>\(p(v \mid x_{&lt;t})\): the model’s next-token probability for token \(v\) given the context.</li>
                 <li>\(\max_{v \in \mathcal{V}} \log p(v \mid x_{&lt;t})\): log-probability of the top-1 predicted token.</li>
-                <li>\(\sigma_t\): standard deviation of the next-token <em>log-probabilities</em> \(\{\log p(v \mid x_{&lt;t})\}_{v \in \mathcal{V}}\), used for normalization.</li>
+                <li>\(\sigma_t\): standard deviation of the next-token log-probabilities
               </ul>
             </div>
 
