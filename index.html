@@ -176,7 +176,7 @@
             <li>
               <strong>Measure top-1 prediction gap</strong>
               <br/>
-              At each token position, Gap-K% measures how much the ground-truth token
+              At each token position, Gap-K% measures how much the target token
               deviates from the model’s top-1 prediction.
             </li>
 
@@ -184,6 +184,14 @@
               $$g_t =
               \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
             </p>
+            <div class="content is-size-6">
+              <ul>
+                <li>\(x_t\): target token at position \(t\)</li>
+                <li>\(x_{&lt;t}\): prefix context</li>
+                <li>\(\max_v \log p(v \mid x_{&lt;t})\): log-probability of the top-1 token</li>
+                <li>\(\sigma_t\): standard deviation of next-token log probabilities</li>
+              </ul>
+            </div>
 
             <li>
               <strong>Apply sequential smoothing</strong>
@@ -209,7 +217,7 @@
             spans, while unseen data often exhibits larger gaps in localized regions.
           </div>
 
-                  <figure class="has-text-centered" style="margin-top: 1.25rem;">
+          <figure class="has-text-centered" style="margin-top: 1.25rem;">
           <img src="static/images/Figure2.png"
                alt="Conceptual comparison of Min-K%++ (z_t) vs Gap-K% (g_t)"
                style="width:100%; max-width:900px; border-radius:10px;">
