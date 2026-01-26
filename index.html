@@ -138,16 +138,14 @@
         <h2 class="title is-3 has-text-centered">Motivation and Insight</h2>
         <div class="content has-text-justified">
           <p>
-            Pretraining with the next-token prediction objective explicitly encourages the model
-            to align its top-1 prediction with the ground-truth token.
+            When the model’s top-1 prediction differs from the target token, the token with the
+            highest probability exerts the strongest gradient signal, resulting in a large
+            training penalty.
           </p>
           <p>
-            When the model is highly confident in an incorrect token, the resulting gradient signal
-            is large and is strongly penalized during training.
-          </p>
-          <p>
-            This suggests that the discrepancy between the top-1 prediction and the target token
-            provides a direct signal for distinguishing training data from unseen data.
+            We therefore hypothesize that the gap between the log-probabilities of the top-1
+            prediction and the target token serves as an informative signal for distinguishing
+            training data from unseen data.
           </p>
         </div>
 
