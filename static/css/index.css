@@ -155,3 +155,6 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+.publication-authors .author-block strong {
+  color: hsl(204, 86%, 53%) !important;
+}
