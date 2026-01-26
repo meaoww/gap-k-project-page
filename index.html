@@ -137,16 +137,17 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3 has-text-centered">Motivation and Insight</h2>
         <div class="content has-text-justified">
-          <p>
-            When the model’s top-1 prediction differs from the target token, the token with the
-            highest probability exerts the strongest gradient signal, resulting in a large
-            training penalty.
-          </p>
-          <p>
-            We therefore hypothesize that the gap between the log-probabilities of the top-1
-            prediction and the target token serves as an informative signal for distinguishing
-            training data from unseen data.
-          </p>
+          <ul>
+            <li>
+              When the model’s top-1 prediction differs from the target token, the token with the
+              highest probability exerts the strongest gradient signal, resulting in a large
+              training penalty.
+            </li>
+            <li>
+              We therefore hypothesize that the gap between the log-probabilities of the top-1
+              prediction and the target token serves as an informative signal for distinguishing
+              training data from unseen data.
+            </li>
         </div>
 
         <div class="content has-text-centered" style="margin-top: 0.75rem;">
