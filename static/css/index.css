@@ -155,6 +155,11 @@ body {
 #interpolation-image-wrapper img {
   border-radius: 5px;
 }
+
 .publication-authors .author-block strong {
   color: hsl(204, 86%, 53%) !important;
+}
+
+.publication-authors.affiliation {
+  margin-top: 0.35rem;  /* 0.25~0.6rem 사이로 취향 조절 */
 }
