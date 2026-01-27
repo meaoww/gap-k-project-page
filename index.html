@@ -141,13 +141,13 @@
             <li>
               When the model’s top-1 prediction differs from the target token, the top-1 prediction
               induces the strongest gradient signal during training.
-
             </li>
             <li>
               We therefore hypothesize that the log-probability gap between the top-1 prediction and
               the target token provides an informative signal for distinguishing training data from
               unseen data.
             </li>
+          </ul>
         </div>
 
         <div class="content has-text-centered" style="margin-top: 0.75rem;">
@@ -179,17 +179,18 @@
               At each token position, Gap-K% measures how much the target token
               deviates from the model’s top-1 prediction.
             </li>
-
-            <p class="has-text-centered" style="margin-top: 1.2rem;">
-              $$g_t =
-              \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v \in \mathcal{V}} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
-            </p>
-            <div class="content is-size-6">
-              <ul>
-                <li>\(x_t\): target token at position \(t\)</li>
-                <li>\(v\): a token in the vocabulary \(\mathcal{V}\)
-                <li>\(\sigma_t\): standard deviation of the next-token log-probabilities
-              </ul>
+            <div class="box" style="margin-top: 1rem; margin-bottom: 0.75rem;">
+              <p class="has-text-centered" style="margin-top: 1.2rem;">
+                $$g_t =
+                \frac{\log p(x_t \mid x_{&lt;t}) - \max_{v \in \mathcal{V}} \log p(v \mid x_{&lt;t})}{\sigma_t}$$
+              </p>
+              <div class="content is-size-6">
+                <ul>
+                  <li>\(x_t\): target token at position \(t\)</li>
+                  <li>\(v\): a token in the vocabulary \(\mathcal{V}\)</li>
+                  <li>\(\sigma_t\): standard deviation of the next-token log-probabilities</li>
+                </ul>
+              </div>
             </div>
 
             <li>
