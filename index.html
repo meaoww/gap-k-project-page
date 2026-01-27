@@ -229,7 +229,7 @@
           <div class="content has-text-justified" style="margin-top: 0.75rem;">
             <p>
               Comparison of token-level scores \(z_t\) (Min-K%++) and \(g_t\) (Gap-K%)
-              under two probability distributions.
+              under two probability distributions. Min-K%++ uses mean-based normalization instead of the top-1 gap.
             </p>
 
             <p>
@@ -240,9 +240,9 @@
             </p>
 
             <p>
-              While Min-K%++ can assign the same \(z_t\) to \(x_t\) under both distributions,
-              Gap-K% assigns different \(g_t\) values because it explicitly measures the gap
-              between the ground-truth token and the distribution mode (top-1).
+              While Min-K%++ can assign the same \(z_t\) to both distributions,
+              Gap-K% assigns different scores to the two distributions,
+              viewing larger top-1–target gaps as stronger evidence of unseen data.
             </p>
           </div>
         </figure>
