@@ -229,7 +229,7 @@
           <div class="content has-text-justified" style="margin-top: 0.75rem;">
             <p>
               Comparison of token-level scores \(z_t\) (Min-K%++) and \(g_t\) (Gap-K%)
-              under two probability distributions. Min-K%++ uses mean-based normalization instead of the top-1 gap.
+              under two probability distributions. Min-K%++ subtracts the mean of the next-token distribution instead of the top-1 prediction.
             </p>
 
             <p>
@@ -268,9 +268,9 @@
 
           <h3 class="title is-5">WikiMIA</h3>
           <p>
-            On <strong>WikiMIA</strong>, Gap-K% improves AUROC by up to <strong>+9.7</strong> over prior baselines and by
-            <strong>+2.4</strong> over the strongest competitor (<strong>Min-K%++</strong>), consistently across model sizes
-            and input settings.
+            On <strong>WikiMIA</strong>, Gap-K% improves AUROC by up to <strong>+9.7</strong> over the average of the prior baselines and by
+            <strong>+2.4</strong> over the strongest competitor (Min-K%++), consistently across model sizes
+            and input lengths.
           </p>
 
           <figure class="has-text-centered" style="margin-top: 1.25rem;">
@@ -284,8 +284,8 @@
 
           <h3 class="title is-5" style="margin-top: 1.75rem;">MIMIR</h3>
           <p>
-            On <strong>MIMIR</strong>, Gap-K% achieves the highest <strong>average AUROC</strong> across multiple
-            <strong>Pythia</strong> model variants, demonstrating strong performance on a challenging benchmark.
+            On <strong>MIMIR</strong>, Gap-K% achieves the highest average AUROC across 1.4B, 2.8B, 6.9B, and 12B
+            Pythia model variants, demonstrating strong performance on a challenging benchmark.
           </p>
 
           <figure class="has-text-centered" style="margin-top: 1.25rem;">
