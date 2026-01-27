@@ -208,37 +208,48 @@
               from its top-1 predictions.
             </li>
           </ol>
-
-          <figure class="has-text-centered" style="margin-top: 1.25rem;">
-            <img src="static/images/Figure2.png"
-                 alt="Conceptual comparison of token-level scores used in Min-K%++ and Gap-K%"
-                 style="width:100%; max-width:900px; border-radius:10px;">
-          
-            <div class="content has-text-justified" style="margin-top: 0.75rem;">
-              <p>
-                <strong>Figure.</strong>
-                Conceptual comparison between Min-K%++ and Gap-K% using a toy example with a small vocabulary
-                size of 8. We compare the token-level scores of Min-K%++ (\(z_t\)) and Gap-K% (\(g_t\))
-                under two different next-token probability distributions.
-              </p>
-          
-              <p>
-                The blue hatched bar denotes the observed token \(x_t\), while the yellow hatched bar
-                indicates the top-1 predicted token.
-                In (a), the distribution is relatively flat, whereas in (b) it is more peaked around
-                the top-1 token.
-              </p>
-          
-              <p>
-                While Min-K%++ can assign the same \(z_t\) to \(x_t\) under both distributions,
-                Gap-K% assigns different \(g_t\) values because it explicitly measures the gap
-                between the ground-truth token and the distribution mode (top-1).
-              </p>
-            </div>
-          </figure>
-
-
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section class="section" id="concept-figure">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3 has-text-centered">Why it works?</h2>
+
+        <figure class="has-text-centered" style="margin-top: 1.25rem;">
+          <img src="static/images/Figure2.png"
+               alt="Conceptual comparison of token-level scores used in Min-K%++ and Gap-K%"
+               style="width:100%; max-width:900px; border-radius:10px;">
+
+          <div class="content has-text-justified" style="margin-top: 0.75rem;">
+            <p>
+              <strong>Figure.</strong>
+              Conceptual comparison between Min-K%++ and Gap-K% using a toy example with a small vocabulary
+              size of 8. We compare the token-level scores of Min-K%++ (\(z_t\)) and Gap-K% (\(g_t\))
+              under two different next-token probability distributions.
+              The annotated \(z_t\) and \(g_t\) values are normalized quantities as defined in the text.
+            </p>
+
+            <p>
+              The blue hatched bar denotes the observed token \(x_t\), while the yellow hatched bar
+              indicates the top-1 predicted token.
+              In (a), the distribution is relatively flat, whereas in (b) it is more peaked around
+              the top-1 token.
+            </p>
+
+            <p>
+              While Min-K%++ can assign the same \(z_t\) to \(x_t\) under both distributions,
+              Gap-K% assigns different \(g_t\) values because it explicitly measures the gap
+              between the ground-truth token and the distribution mode (top-1).
+            </p>
+          </div>
+        </figure>
+
       </div>
     </div>
   </div>
