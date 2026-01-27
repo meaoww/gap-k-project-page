@@ -186,16 +186,14 @@
             </div>
 
             <li>
-              <strong>Apply sequential smoothing</strong>
-              <br/>
+              <strong>Apply sequential smoothing:</strong>
               Instead of treating tokens independently, Gap-K% averages gap scores
               over a sliding window to capture local correlations and reduce
               token-level fluctuations.
             </li>
 
             <li>
-              <strong>Average the lowest K% regions</strong>
-              <br/>
+              <strong>Average the lowest K% regions:</strong>
               Finally, Gap-K% averages the lowest <i>K</i>% of window-level scores,
               focusing on the most informative regions where the model deviates most
               from its top-1 predictions.
