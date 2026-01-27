@@ -220,7 +220,6 @@
                 Conceptual comparison between Min-K%++ and Gap-K% using a toy example with a small vocabulary
                 size of 8. We compare the token-level scores of Min-K%++ (\(z_t\)) and Gap-K% (\(g_t\))
                 under two different next-token probability distributions.
-                The annotated \(z_t\) and \(g_t\) values are normalized quantities as defined in the text.
               </p>
           
               <p>
@@ -235,22 +234,6 @@
                 Gap-K% assigns different \(g_t\) values because it explicitly measures the gap
                 between the ground-truth token and the distribution mode (top-1).
               </p>
-            </div>
-          
-            <div class="content is-size-6 has-text-justified">
-              <ul>
-                <li>
-                  \(z_t\): Min-K%++ token score — normalized log-probability of the ground-truth token.
-                </li>
-                <li>
-                  \(g_t\): Gap-K% token score — normalized log-probability gap between the ground-truth token
-                  and the model’s top-1 prediction.
-                </li>
-                <li>
-                  <strong>Min-K%++</strong>: a likelihood-based baseline that aggregates the lowest \(K\%\)
-                  of \(z_t\) values across a sequence.
-                </li>
-              </ul>
             </div>
           </figure>
 
